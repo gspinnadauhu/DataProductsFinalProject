@@ -10,16 +10,23 @@ shinyUI(
                 tabPanel("Map",
                          sidebarLayout(
                                  sidebarPanel(
-                                         dateRangeInput(inputID,)
+                                         dateRangeInput("DateInput",
+                                                        "Date Range",
+                                                        start="1992-01-01",
+                                                        end="2015-12-31",
+                                                        min="1992-01-01",
+                                                        max="2015-12-31"),
+                                         selectInput("StateInput",
+                                                     "State(s)",
+                                                     unique(fires$STATE),
+                                                     selected=unique(fires$STATE),
+                                                     multiple = TRUE)
+                                 ),
+                                 mainPanel(
+                                         leafletOutput("firemap")
                                  )
                          )
                          ),
-                
-                
-                
-                
-                
-                
                 tabPanel("Summary","Summarize & Download Wildfire Data")
         )
     )
