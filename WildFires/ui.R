@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+library(tidyverse)
 
 # Define UI for application that shows and summarizes wildfire occurrences in the US
 shinyUI(
@@ -9,19 +10,19 @@ shinyUI(
         tabsetPanel(
                 tabPanel("Map",
                          sidebarLayout(
+                                 #Side Panels to select Date Range & State
                                  sidebarPanel(
-                                         dateRangeInput("DateInput",
-                                                        "Date Range",
-                                                        start="1992-01-01",
-                                                        end="2015-12-31",
-                                                        min="1992-01-01",
-                                                        max="2015-12-31"),
+                                         checkboxGroupInput("DateInput",
+                                                            "Years",
+                                                            choices=unique(fires$FIRE_YEAR)),
                                          selectInput("StateInput",
                                                      "State(s)",
                                                      unique(fires$STATE),
                                                      selected=unique(fires$STATE),
-                                                     multiple = TRUE)
+                                                     multiple = TRUE),
+                                         submitButton("Apply Selection")
                                  ),
+                                 #Main Panel to display a map with fire locations
                                  mainPanel(
                                          leafletOutput("firemap")
                                  )

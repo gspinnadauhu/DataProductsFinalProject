@@ -1,26 +1,28 @@
-#
-# This is the server logic of a Shiny web application. You can run the 
-# application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-# 
-#    http://shiny.rstudio.com/
-#
-
+#loading the wildfire data file
+#fires<<-read.csv("./WildFires/data/fires.csv")
 library(shiny)
+library(leaflet)
+library(tidyverse)
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-   
-  output$distPlot <- renderPlot({
-    
-    # generate bins based on input$bins from ui.R
-    x    <- faithful[, 2] 
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-    
-    # draw the histogram with the specified number of bins
-    hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    
-  })
-  
-})
+        output$firemap<-renderLeaflet({
+                leaflet({mapset<-fires %>%
+                                select(STATE,FIRE_YEAR,FIRE_NAME,FIRE_SIZE_CLASS,FIPS_NAME,FIRE_SIZE,LATITUDE,LONGITUDE) %>%
+                                filter(STATE %in% input$StateInput & FIRE_YEAR %in% input$DateInput)
+                        }
+                        ) %>%
+                        addProviderTiles(providers$CartoDB.Positron) %>%
+                        addCircleMarkers(~mapset$LONGITUDE,
+                                         ~mapset$LATITUDE,
+                                         popup=~paste("Fire Name:",
+                                                      as.character(mapset$FIRE_NAME),
+                                                      "Size Class:",
+                                                      as.character(mapset$FIRE_SIZE_CLASS),
+                                                      "FIPS Name:",
+                                                      as.character(mapset$FIPS_NAME)),
+                                         clusterOptions=markerClusterOptions()
+                                         )
+        }
+        )
+}
+)
