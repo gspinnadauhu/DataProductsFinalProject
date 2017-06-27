@@ -25,5 +25,6 @@ shinyServer(function(input, output) {
                                          )
         }
         )
+        output$FireSummary<-renderTable()
 }
 )
