@@ -14,11 +14,12 @@ shinyServer(function(input, output) {
                         addProviderTiles(providers$CartoDB.Positron) %>%
                         addCircleMarkers(~mapset$LONGITUDE,
                                          ~mapset$LATITUDE,
-                                         popup=~paste("Fire Name:",
+                                         popup=~paste(sep="<br/>",
+                                                      "<b>Fire Name:</b>",
                                                       as.character(mapset$FIRE_NAME),
-                                                      "Size Class:",
+                                                      "<b>Size Class:</b>",
                                                       as.character(mapset$FIRE_SIZE_CLASS),
-                                                      "FIPS Name:",
+                                                      "<b>FIPS Name:</b>",
                                                       as.character(mapset$FIPS_NAME)),
                                          clusterOptions=markerClusterOptions()
                                          )
