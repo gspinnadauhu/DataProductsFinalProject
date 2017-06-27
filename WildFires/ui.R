@@ -14,11 +14,14 @@ shinyUI(
                                  sidebarPanel(
                                          checkboxGroupInput("DateInput",
                                                             "Years",
-                                                            choices=unique(fires$FIRE_YEAR)),
+                                                            choices=sort(unique(fires$FIRE_YEAR),
+                                                                         decreasing=FALSE),
+                                                            inline=TRUE),
                                          selectInput("StateInput",
                                                      "State(s)",
-                                                     unique(fires$STATE),
-                                                     selected=unique(fires$STATE),
+                                                     sort(unique(fires$STATE),
+                                                          decreasing = FALSE),
+                                                     selected=NULL,
                                                      multiple = TRUE),
                                          submitButton("Apply Selection")
                                  ),
