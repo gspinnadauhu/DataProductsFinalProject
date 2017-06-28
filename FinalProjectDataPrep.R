@@ -11,4 +11,5 @@ fires<-dbFetch(query,n=-1)
 dbClearResult(query)
 dbDisconnect(connection)
 ## save fires in ./data as csv, excluding shape column which does not contain useful info
-write.csv(fires[,-39],file="./WildFires/data/fires.csv",row.names=FALSE)
+fires<-select(fires,STATE,FIRE_YEAR,FIRE_NAME,FIRE_SIZE_CLASS,FIPS_NAME,FIRE_SIZE,LATITUDE,LONGITUDE)
+write.csv(fires,file="./WildFires/data/fires.csv",row.names=FALSE)
