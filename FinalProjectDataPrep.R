@@ -12,8 +12,8 @@ dbClearResult(query)
 dbDisconnect(connection)
 ## save fires in ./data as csv, excluding shape column which does not contain useful info
 fires<-select(fires,STATE,FIRE_YEAR,FIRE_NAME,FIRE_SIZE_CLASS,FIPS_NAME,FIRE_SIZE,LATITUDE,LONGITUDE)
-choices<-fires %>%
-        select(FIRE_YEAR,STATE) %>%
-        distinct(FIRE_YEAR,STATE)
-write.csv(choices,file="./WildFires/data/choices.csv",row.names=FALSE)
+states<-as.character(unique(fires$STATE))
+sfire_year<-unique(fires$FIRE_YEAR)
+write.csv(states,file="./WildFires/data/states.csv",row.names=FALSE)
+write.csv(fire_year,file="./WildFires/data/fire_year.csv",row.names=FALSE)
 write.csv(fires,file="./WildFires/data/fires.csv",row.names=FALSE)

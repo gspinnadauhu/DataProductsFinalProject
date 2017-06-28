@@ -1,6 +1,9 @@
 library(shiny)
 library(leaflet)
 library(tidyverse)
+#loading variabes for inputs
+states<-read.csv("./data/states.csv")
+fire_year<-read.csv("./data/fire_year.csv")
 
 # Define UI for application that shows and summarizes wildfire occurrences in the US
 shinyUI(
@@ -12,12 +15,12 @@ shinyUI(
                 sidebarPanel(
                         checkboxGroupInput("DateInput",
                                            "Years",
-                                           choices=sort(unique(fires$FIRE_YEAR),
-                                           decreasing=FALSE),
+                                           choices=sort(fire_year$x,
+                                                        decreasing=FALSE),
                                            inline=TRUE),
                         selectInput("StateInput",
                                     "State(s)",
-                                    sort(unique(fires$STATE),
+                                    sort(states$x,
                                          decreasing = FALSE),
                                     selected=NULL,
                                     multiple = TRUE),
@@ -25,9 +28,11 @@ shinyUI(
                         ),
                 #Main Panel to display a map with fire locations
                 mainPanel(
-                        leafletOutput("firemap"),
-                        tableOutput("FireSummary")
+                        tabsetPanel(
+                                tabPanel("Fire Locations",leafletOutput("firemap")),
+                                tabPanel("Fire Size Summary",plotlyOutput("fireplot"))
                         )
                 )
         )
     )
+)

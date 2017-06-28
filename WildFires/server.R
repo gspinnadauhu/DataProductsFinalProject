@@ -1,30 +1,37 @@
-#loading the wildfire data file
-#fires<<-read.csv("./WildFires/data/fires.csv")
+#loading libraries & the wildfire data file
 library(shiny)
 library(leaflet)
+library(plotly)
 library(tidyverse)
+#fires<-read.csv("./data/fires.csv")
 
 shinyServer(function(input, output) {
+        mapset<-reactive({
+                subset(fires, STATE %in% input$StateInput & FIRE_YEAR %in% input$DateInput)
+                })
         output$firemap<-renderLeaflet({
-                leaflet({mapset<-fires %>%
-                                select(STATE,FIRE_YEAR,FIRE_NAME,FIRE_SIZE_CLASS,FIPS_NAME,FIRE_SIZE,LATITUDE,LONGITUDE) %>%
-                                filter(STATE %in% input$StateInput & FIRE_YEAR %in% input$DateInput)
-                        }
-                        ) %>%
+                leaflet(mapset()) %>%
                         addProviderTiles(providers$CartoDB.Positron) %>%
-                        addCircleMarkers(~mapset$LONGITUDE,
-                                         ~mapset$LATITUDE,
+                        addCircleMarkers(~LONGITUDE,
+                                         ~LATITUDE,
                                          popup=~paste(sep="<br/>",
                                                       "<b>Fire Name:</b>",
-                                                      as.character(mapset$FIRE_NAME),
+                                                      as.character(FIRE_NAME),
                                                       "<b>Size Class:</b>",
-                                                      as.character(mapset$FIRE_SIZE_CLASS),
+                                                      as.character(FIRE_SIZE_CLASS),
                                                       "<b>FIPS Name:</b>",
-                                                      as.character(mapset$FIPS_NAME)),
+                                                      as.character(FIPS_NAME)),
                                          clusterOptions=markerClusterOptions()
                                          )
         }
         )
-        output$FireSummary<-renderTable()
+        output$fireplot<-renderPlotly({
+                plot_ly(mapset(),
+                        y=~FIRE_SIZE,
+                        x=~STATE,
+                        color=~STATE,
+                        type="box")
+        }
+        )
 }
 )
