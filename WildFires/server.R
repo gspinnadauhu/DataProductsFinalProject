@@ -10,27 +10,36 @@ shinyServer(function(input, output) {
                 subset(fires, STATE %in% input$StateInput & FIRE_YEAR %in% input$DateInput)
                 })
         output$firemap<-renderLeaflet({
-                leaflet(mapset()) %>%
-                        addProviderTiles(providers$CartoDB.Positron) %>%
-                        addCircleMarkers(~LONGITUDE,
-                                         ~LATITUDE,
-                                         popup=~paste(sep="<br/>",
-                                                      "<b>Fire Name:</b>",
-                                                      as.character(FIRE_NAME),
-                                                      "<b>Size Class:</b>",
-                                                      as.character(FIRE_SIZE_CLASS),
-                                                      "<b>FIPS Name:</b>",
-                                                      as.character(FIPS_NAME)),
-                                         clusterOptions=markerClusterOptions()
-                                         )
+                leaflet(
+                        mapset()
+                        ) %>%
+                addProviderTiles(providers$CartoDB.Positron) %>%
+                addCircleMarkers(~LONGITUDE,
+                                 ~LATITUDE,
+                                 popup=~paste(sep="<br/>",
+                                              "<b>Fire Name:</b>",
+                                              as.character(FIRE_NAME),
+                                              "<b>Size Class:</b>",
+                                              as.character(FIRE_SIZE_CLASS),
+                                              "<b>FIPS Name:</b>",
+                                              as.character(FIPS_NAME)),
+                                 clusterOptions=markerClusterOptions()
+                                 )
         }
         )
+        statelist<-reactive({input$StateInput})
         output$fireplot<-renderPlotly({
-                plot_ly(mapset(),
+                plot_ly(
+                        mapset(),
                         y=~FIRE_SIZE,
-                        x=~STATE,
-                        color=~STATE,
-                        type="box")
+                        x=~as.character(STATE) ,
+                        color=~as.character(STATE),
+                        type="box"
+                        ) %>%
+                layout(
+                        xaxis=list(title=FALSE, autotick=FALSE),
+                        yaxis=list(title="Area Burnt in Acres")
+                        )
         }
         )
 }
