@@ -3,7 +3,7 @@ library(shiny)
 library(leaflet)
 library(plotly)
 library(tidyverse)
-#fires<-read.csv("./data/fires.csv")
+fires<-read.csv("./data/fires.csv")
 
 shinyServer(function(input, output) {
         mapset<-reactive({
@@ -31,14 +31,17 @@ shinyServer(function(input, output) {
         output$fireplot<-renderPlotly({
                 plot_ly(
                         mapset(),
-                        y=~FIRE_SIZE,
-                        x=~as.character(STATE) ,
+                        x=~FIRE_SIZE,
+                        y=~as.character(STATE),
                         color=~as.character(STATE),
                         type="box"
                         ) %>%
                 layout(
-                        xaxis=list(title=FALSE, autotick=FALSE),
-                        yaxis=list(title="Area Burnt in Acres")
+                        title="Fire Size Distributions by State",
+                        yaxis=list(title=FALSE,
+                                   autotick=FALSE,
+                                   autorange="reversed"),
+                        xaxis=list(title="Area Burnt in Acres")
                         )
         }
         )
