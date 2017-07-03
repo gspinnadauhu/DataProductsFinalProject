@@ -46,8 +46,8 @@ shinyServer(function(input, output) {
         )
         output$burntarea<-renderTable({
                 mapset() %>%
-                        group_by(STATE) %>%
-                        summarise(Total=sum(FIRE_SIZE))
+                        group_by(FIRE_YEAR,STATE) %>%
+                        summarise(TOTAL_AREA_BURNT=sum(FIRE_SIZE))
         },
                 digits=0
         )
