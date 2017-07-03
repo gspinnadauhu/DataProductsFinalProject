@@ -27,7 +27,6 @@ shinyServer(function(input, output) {
                                  )
         }
         )
-        statelist<-reactive({input$StateInput})
         output$fireplot<-renderPlotly({
                 plot_ly(
                         mapset(),
@@ -44,6 +43,13 @@ shinyServer(function(input, output) {
                         xaxis=list(title="Area Burnt in Acres")
                         )
         }
+        )
+        output$burntarea<-renderTable({
+                mapset() %>%
+                        group_by(STATE) %>%
+                        summarise(Total=sum(FIRE_SIZE))
+        },
+                digits=0
         )
 }
 )

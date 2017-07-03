@@ -1,5 +1,6 @@
 library(shiny)
 library(leaflet)
+library(plotly)
 library(tidyverse)
 #loading variabes for inputs
 states<-read.csv("./data/states.csv")
@@ -29,8 +30,11 @@ shinyUI(
                 #Main Panel to display a map with fire locations
                 mainPanel(
                         tabsetPanel(
-                                tabPanel("Fire Locations",leafletOutput("firemap")),
-                                tabPanel("Fire Size Summary",plotlyOutput("fireplot"))
+                                tabPanel("Fire Locations",
+                                         leafletOutput("firemap")),
+                                tabPanel("Fire Size Summary",
+                                         plotlyOutput("fireplot"),
+                                         tableOutput("burntarea"))
                         )
                 )
         )
