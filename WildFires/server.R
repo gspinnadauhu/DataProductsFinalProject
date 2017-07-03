@@ -3,7 +3,7 @@ library(shiny)
 library(leaflet)
 library(plotly)
 library(tidyverse)
-fires<-read.csv("./data/fires.csv")
+fires<-readRDS("./data/fires.rds")
 
 shinyServer(function(input, output) {
         mapset<-reactive({

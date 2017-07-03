@@ -3,8 +3,8 @@ library(leaflet)
 library(plotly)
 library(tidyverse)
 #loading variabes for inputs
-states<-read.csv("./data/states.csv")
-fire_year<-read.csv("./data/fire_year.csv")
+states<-readRDS("./data/states.rds")
+fire_year<-readRDS("./data/fire_year.rds")
 
 # Define UI for application that shows and summarizes wildfire occurrences in the US
 shinyUI(
