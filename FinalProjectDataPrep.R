@@ -1,4 +1,4 @@
-# SQLite Database was downloaded from https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.4/ and extracted in ./data
+# SQLite Database was downloaded from https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.4/ and extracted in ./download
 # Connecting to SQLite file containing data on wildfires in US
 library(tidyverse)
 library(RSQLite)
