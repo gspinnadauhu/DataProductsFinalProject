@@ -1,12 +1,13 @@
-Mapping & Exploring Spatial Wildfire Occurance Data for 1992-2015
-========================================================
-author: gspinnada uhu
-date: July 5th, 2017
-width: 1500
-height: 700
+---
+title: "Wild Fire Incidence Mapping & Statistics"
+author: "gspinnadauhu"
+date: "July 10, 2017"
+output: ioslides_presentation
+widescreen: TRUE
+smaller: TRUE
+---
 
-What?
-========================================================
+## What?
 
 The data were compiled by Karen C. Short of the USDA Forest Service Research. </br>
 Various spatial database formats can be downloaded here: </br>
@@ -22,8 +23,7 @@ Various spatial database formats can be downloaded here: </br>
 
 
 
-Why? & How?
-========================================================
+## Why? & How?
 ### Why?
 - Data are currently only available as various geodatabase formats
 - Without GIS knowledge, visualizing or extracting basic information would be prohibitively difficult to a layperson.
@@ -36,13 +36,10 @@ Why? & How?
 
 Access the app here: https://gspinnadauhu.shinyapps.io/wildfires/
 
-Sample Map Code: Wildfires in California 2005-07
-========================================================
+## Sample Map Code: Wildfires in California 2005-07
 
-```r
+```{r, eval=TRUE}
 library(leaflet)
-library(webshot)
-library(htmlwidgets)
 firepitch<-readRDS("./WildFires/data/firepitch.rds")
 map<-leaflet(firepitch) %>%
         addProviderTiles(providers$CartoDB.Positron) %>% 
@@ -55,11 +52,11 @@ map<-leaflet(firepitch) %>%
                                       as.character(FIRE_SIZE_CLASS),
                                       "<b>FIPS Name:</b>",
                                       as.character(FIPS_NAME)),
-                         clusterOptions=markerClusterOptions()
-        )
-saveWidget(map, file = "./firepitch_map.html")
+                         clusterOptions=markerClusterOptions())
 ```
 
-Sample Map: Wildfires in California 2005-07
-========================================================
-<iframe src="./firepitch_map.html" style="position:absolute;height:100%;width:100%"></iframe>
+## Sample Map: Wildfires in California 2005-07
+
+```{r, echo=FALSE}
+map
+```
