@@ -13,7 +13,8 @@ shinyUI(
         titlePanel("USDA Forestry Service Wild Fire Occurrences 1992-2015"),
         sidebarLayout(
                 #Side Panels to select Date Range & State
-                sidebarPanel(
+                sidebarPanel(h4("Please select 1+ year(s) and 1+ state(s)."),
+                                h4("Next, click 'Apply Selection'"),
                         checkboxGroupInput("DateInput",
                                            "Years",
                                            choices=sort(fire_year,
@@ -31,9 +32,13 @@ shinyUI(
                 mainPanel(
                         tabsetPanel(
                                 tabPanel("Fire Locations",
-                                         leafletOutput("firemap")),
+                                         leafletOutput("firemap"),
+                                         p("Click on clusters to zoom in further and/or click on fire locations to access Name, Size Class and County.")),
                                 tabPanel("Fire Size Summary",
                                          plotlyOutput("fireplot"),
+                                         p("Move/Hover cursor over plots to view 5-Number Summary."),
+                                         p(""),
+                                         h4("Summary of Damage in Acres per State & Year"),
                                          tableOutput("burntarea"))
                         )
                 )
